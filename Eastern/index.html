@@ -8,11 +8,10 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
         <title>Drinkya首頁</title>
-        <script src="index.js"></script>
     </head>
     <body>
       <header>
-          <button id="burger" class="burger" onclick="toggleNav()">
+          <button id="burger" class="burger">
               <i class="fas fa-bars"></i>
           </button>
         <div class="logo_container">
@@ -25,18 +24,21 @@
           <a href="javascript:void(1)" data-id="3 " class="contact">聯絡我們</br><span class="en">Contact</span></a>
         </nav>
       </header>
+
+      <nav id="mobileNav">
+        <ul>
+          <li><i class="fas fa-home"></i><a href="">首頁 Home</a></li>
+          <li><i class="fas fa-user-alt"></i><a href="javascript:void(1)" class="service">服務說明 Service</a></li>
+          <li><i class="fa-solid fa-mug-hot"></i><a href="javascript:void(1)" class="contact">聯絡我們 Contact</a></li>
+        </ul>
+      </nav>
+
       <div class="fb"><a href="#"><img src="fb_black.png"></a></div>
       <div class="ig"><a href="#"><img src="ig_black.png"></a></div>
       <div class="back-top hide" title="回頂部"></div>
+      <!-- //768px以下 -->
       <div class="title-container">
           <h1 class="title">Drinkya,</br>&emsp;&emsp;&emsp;Got your flavor!</h1>
-          <nav class="nav">
-            <ul>
-              <li><i class="fas fa-home"></i><a href="">首頁 Home</a></li>
-              <li><i class="fas fa-user-alt"></i><a href="javascript:void(1)" class="service">服務說明 Service</a></li>
-              <li><i class="fa-solid fa-mug-hot"></i><a href="javascript:void(1)" class="contact">聯絡我們 Contact</a></li>
-            </ul>
-          </nav>
       </div>
           <div class="container my-5 ">
             <div class="product-title"><h1 >精選店家</h1></div>
@@ -257,3 +259,108 @@
           <script src="index.js"></script>
     </body>
 </html>
+
+
+<script>
+  const burger = document.querySelector("#burger");
+  const mobileNav = document.querySelector("#mobileNav");
+
+  let mobileNavActive = false;
+
+  burger.addEventListener("click", function (e) {
+    e.stopPropagation();
+    if(!mobileNavActive) {
+      mobileNav.classList.add("active");
+      mobileNavActive = true;
+      return;
+    }
+    if(mobileNavActive) {
+      mobileNav.classList.remove("active");
+      mobileNavActive = false;
+      return;
+    }
+  });
+
+  document.addEventListener("click", function (event) {
+    if(mobileNavActive){
+          if (event.target !== mobileNav && event.target !== burger) {
+              mobileNav.classList.remove("active");
+              mobileNavActive = false;
+          }
+        }
+    });
+
+    
+$(function () {
+  function scrollToSection(targetId) {
+    var target_top = $("#" + targetId).offset().top;
+    $("html,body").animate(
+      {
+        scrollTop: target_top,
+      },
+      800
+    );
+  }
+
+  $(".navbar .service").click(function () {
+    scrollToSection("section2");
+  });
+
+  $(".navbar .contact").click(function () {
+    scrollToSection("section3");
+  });
+
+  $("#mobileNav .service").click(function () {
+    scrollToSection("section2");
+  });
+
+  $("#mobileNav .contact").click(function () {
+    scrollToSection("section3");
+  });
+});
+
+$(document).ready(function () {
+  // 捲軸偵測距離頂部超過 50 才顯示按鈕
+  $(window).scroll(function () {
+    if ($(window).scrollTop() > 50) {
+      if ($(".back-top").hasClass("hide")) {
+        $(".back-top").toggleClass("hide");
+      }
+    } else {
+      $(".back-top").addClass("hide");
+    }
+  });
+
+  // 點擊按鈕回頂部
+  $(".back-top").on("click", function (event) {
+    $("html, body").animate(
+      {
+        scrollTop: 0,
+      },
+      500
+    );
+  });
+});
+
+var lastScrollTop = 0;
+var navbar = document.querySelector('header');
+
+window.addEventListener('scroll', function() {
+    var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+    if (scrollTop > lastScrollTop) {
+        // 用户向下滚动，隐藏导航栏
+        navbar.classList.add('fade-out');
+        navbar.classList.remove('fade-in');
+    } else {
+        // 用户向上滚动，显示导航栏
+        navbar.classList.add('fade-in');
+        navbar.classList.remove('fade-out');
+    }
+
+    lastScrollTop = scrollTop;
+})
+
+
+ 
+</script>
